@@ -8,40 +8,45 @@ https://jnhuang02.github.io/League-of-Legends/
 
 ## Framing the Problem
 
-We want to predict the result of whether the team will win or lose in the game. This will be a binary classification, since we are predict wheter win or lose. The response variable is the result column, which holds the result of a . We chose it becuase we think that prdicting a team will win or lose is important, if we can predict correctly, then that means we can find the factors that will lead to a team's lose or win, then the player can make changes to get a higher chance to win. The metrics we use is precision, recall, and f1-score. We chose these metrics, since it measure the proportion that we predict correctly, and this is suitable for our model.
-
+We want to predict the result of whether the team will win or lose in the game. This will be a binary classification, since we are predict wheter win or lose. The response variable is the result column, which states whatever a team wins or not in binary form. 1 means win, 0 means loss. The metrics we use is precision, recall, and f1-score. We chose these metrics, because recall illustrates a model's ability to predict the positive instances correctly. In this case, it illustrates how many games are won or lost correctly. Precision shows how accurate it is at identifying positive results, or in this case how well it can predict games were won. F1 score combines both and shows the overall accuracy of the binary classification prediction.
 
 ---
 
 ## Baseline Model
 
-We take in two columns, teamkills and teandeaths, which are both quantitative datas. These two columns represent the kills and deaths in the game. We want to use teamkills and teamdeaths to predict the result column by using ColumnTransformer and Stdscaler to build our Pipeline. For class '0', our precision: 0.96, recall: 0.95, F1-score:0.96, and for class '1', our precision: 0.96, recall: 0.96, F1-score: 0.96. In this performance, we can say that our current model is good, becuase the model has high precision, recall and F1-score. We also have a weighted average, it is also high(0.96).
+We take in two columns, teamkills and teandeaths, which are both quantitative datas. These two columns represent the kills and deaths in the game. We want to use teamkills and teamdeaths to predict the result column by using ColumnTransformer and Stdscaler to build our Pipeline. For class '0', or games lost, our precision is 0.96, recall: 0.95, F1-score:0.96, and for class '1', or games won, our precision is 0.96, recall: 0.96, F1-score: 0.96. In this performance, we can say that our current model is good, becuase the model has high precision, recall and F1-score. We also have a weighted average, which is high at (0.96).
 
 ---
 
 ## Final Model:
 Describe the modeling algorithm you chose, the hyperparameters that ended up performing the best, and the method you used to select hyperparameters and your overall model. Describe how your Final Model’s performance is an improvement over your Baseline Model’s performance.
 
-We add two features, total_gold and kd. We believe that adding these two values will increase the accuracy, since total_gold represent the resources amount the team obtain in the game. We believe that the higher the value in the total gold, the team will win the game more easier. Adding this feature, we think that can help us prdict the win or lose by considering the amount of gold the team have. Another feature, kill-to-death column represent the ratio of killing other and being killed, we think that it is obvious that if killing more people the team will be more likely to win the game, while having more times of being killed will decresed the chance of winning. We add those two features, to increase our accuracy, becuase we believe that they are important features that will affect the result. 
+We added two features, which is gold per minute and number of towers destroyed per each game. We believe that adding these two values will increase the accuracy, since gold per minute represents the how well the teams obtain gold, which is crucial to buying items and winning the game. We believe that the higher the value in the total gold, the more the team will win in the game. Adding this feature, we think that can help us prdict the win or lose by considering the amount of gold the team have. Another feature is number of towers destroyed per game, which is a nominal variable. It indicates the total number of towers that were destroyed per game. This feature is important because towers are crucial for defending and nexus, and more towers destroyed means the enemy team are inching closer towards the nexus and thus victory. Therefore, we believe that the number of towers destroyed are a good factor in indicating whatever or not a team has won the game.
 
-The modeling algorithm we chose is the RandomForestClassifier. 
-Best hyperparameters:  {'model__max_depth': 5, 'model__min_samples_split': 2, 'model__n_estimators': 200}
-Accuracy:  0.9565423889812396
-However, in our case, our performance doesn't have a big improvement.
+The method that we chose is a random forest classifier, and we use a grid search cross validation to find the best hyperparameters that will best fit the data. Although this may take longer than compared to other cross validation methods, it does produce the most reliable results. As seen in the results below, the best hyperparameters are for the max depth of the model 5, minimum number of samples to split, 10, and 300 for the number of n estimators. The accuracy has improve slightly, jumpying from a 96 to a 97.5 percent.
+
+Best hyperparameters:  {'model__max_depth': 5, 'model__min_samples_split': 10, 'model__n_estimators': 300}
+Accuracy:  0.9746625621596022.
 
 
 ---
 
 ## Fairness Analysis:
-Clearly state your choice of Group X and Group Y, your evaluation metric, your null and alternative hypotheses, your choice of test statistic and significance level, the resulting p
--value, and your conclusion.
 
-Our GroupX is teams with the most gold per gamme and the GroupY is the team that has the less gold per game. 
-Our null hypothese is the model is fair for the team to take the most gold.
-Our Alternative Hypothesis: There will be a difference beteen teams wih less gold and most gold.
-Test statistic: precision difference betweem teams with less gold and more gold
+Our GroupX is teams with the amount of gold earned per minute higher than the median, and GroupY is the team that has the amount of gold per minute below the median.
+
+Evalutation Matrix: Precision for whatever or not a team has won
+
+Our null hypothesesis: There is no difference in precision for group X and group Y.
+
+Our Alternative Hypothesis: There will be a significiant difference between group X and group Y.
+
+Test statistic: The precision difference between group x and group y
+
 significant level: 0.05
 
-Observed Precision Difference:  0.03715830070213344
-Null hypothesis is rejected, p value is :  0.001
-Conclusion: The p-value is less than the significant value, so it suggests that the model's precision differs between groups.
+Observed Precision Difference:  -0.051627516186341316
+
+Null hypothesis is rejected, p value is :  0.018
+
+Conclusion: The p-value is less than the significant value, which rejects the null hypothesis.
