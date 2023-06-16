@@ -8,7 +8,7 @@ https://jnhuang02.github.io/League-of-Legends/
 
 ## Framing the Problem
 
-We want to predict the result of whether the team will win or lose in the game. This will be a binary classification, since we are predict wheter win or lose. The response variable is the result column. We chose it becuase we think that prdicting a team will win or lose is important, if we can predict correctly, then that means we can find the factors that will lead to a team's lose or win, then the player can make changes to get a higher chance to win. The metrics we use is precision, recall, and f1-score. We chose these metrics, since it measure the proportion that we predict correctly, and this is suitable for our model.
+We want to predict the result of whether the team will win or lose in the game. This will be a binary classification, since we are predict wheter win or lose. The response variable is the result column, which holds the result of a . We chose it becuase we think that prdicting a team will win or lose is important, if we can predict correctly, then that means we can find the factors that will lead to a team's lose or win, then the player can make changes to get a higher chance to win. The metrics we use is precision, recall, and f1-score. We chose these metrics, since it measure the proportion that we predict correctly, and this is suitable for our model.
 
 
 ---
