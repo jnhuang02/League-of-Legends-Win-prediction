@@ -1,4 +1,4 @@
-# league-of-legends Model-Building
+# League Of Legends Model Building
 This is a project for DSC 80 at UCSD
 by Joanne Pon and Justin Huang
 
@@ -10,11 +10,16 @@ https://jnhuang02.github.io/League-of-Legends/
 
 We want to predict the result of whether the team will win or lose in the game. This will be a binary classification, since we are predict wheter win or lose. The response variable is the result column, which states whatever a team wins or not in binary form. 1 means win, 0 means loss. The metrics we use is precision, recall, and f1-score. We chose these metrics, because recall illustrates a model's ability to predict the positive instances correctly. In this case, it illustrates how many games are won or lost correctly. Precision shows how accurate it is at identifying positive results, or in this case how well it can predict games were won. F1 score combines both and shows the overall accuracy of the binary classification prediction.
 
+![Image Description](recall.png)
+
 ---
 
 ## Baseline Model
 
-We take in two columns, teamkills and teandeaths, which are both quantitative datas. These two columns represent the kills and deaths in the game. We want to use teamkills and teamdeaths to predict the result column by using ColumnTransformer and Stdscaler to build our Pipeline. For class '0', or games lost, our precision is 0.96, recall: 0.95, F1-score:0.96, and for class '1', or games won, our precision is 0.96, recall: 0.96, F1-score: 0.96. In this performance, we can say that our current model is good, becuase the model has high precision, recall and F1-score. We also have a weighted average, which is high at (0.96).
+We take in two columns, teamkills and teandeaths, which are both quantitative datas. These two columns represent the kills and deaths in the game. We want to use teamkills and teamdeaths to predict the result column by using ColumnTransformer and Stdscaler to build our Pipeline to help standardize. As seen in the model below, we have a high weighted average at 0.96. This is a good sign as that is relatively high and close to perfection.
+
+![recall](precision.png)
+
 
 ---
 
@@ -25,8 +30,7 @@ We added two features, which is gold per minute and number of towers destroyed p
 
 The method that we chose is a random forest classifier, and we use a grid search cross validation to find the best hyperparameters that will best fit the data. Although this may take longer than compared to other cross validation methods, it does produce the most reliable results. As seen in the results below, the best hyperparameters are for the max depth of the model 5, minimum number of samples to split, 10, and 300 for the number of n estimators. The accuracy has improve slightly, jumpying from a 96 to a 97.5 percent.
 
-Best hyperparameters:  {'model__max_depth': 5, 'model__min_samples_split': 10, 'model__n_estimators': 300}
-Accuracy:  0.9746625621596022.
+![precision](hyperparameters.png)
 
 
 ---
